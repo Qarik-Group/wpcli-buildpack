@@ -1,7 +1,9 @@
 package supply
 
 import (
+	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -58,7 +60,21 @@ func (s *Supplier) Run() error {
 		return err
 	}
 
-	err = os.Rename(wpcliBin[0], filepath.Join(s.Stager.DepDir(), "bin", "wp"))
+	err = os.Chmod(wpcliBin[0], 0755)
+	if err != nil {
+		return err
+	}
+
+	wrapperScript := fmt.Sprintf(
+		`#!/bin/bash
+
+DEPDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+cd $DEPDIR
+
+php wp-cli-*.phar --path=$HOME/htdocs "$@"
+`)
+
+	err = ioutil.WriteFile(filepath.Join(s.Stager.DepDir(), "bin", "wp"), []byte(wrapperScript), 0755)
 	if err != nil {
 		return err
 	}
