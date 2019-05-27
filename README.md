@@ -6,6 +6,8 @@ Learn more about the `wp` CLI in the [handbook](https://make.wordpress.org/cli/h
 
 Inside `cf ssh`, the `wp` helper is already configured with the `--path=$HOME/htdocs` where Wordpress will be installed by the [php-buildpack](https://github.com/cloudfoundry/php-buildpack).
 
+The `wp-cli` release included in the buildpack is updated automatically via a [CI job](https://ci2.starkandwayne.com/teams/cfcommunity/pipelines/wpcli-buildpack), which bumps `manifest.yml`.
+
 ## Buildpack Developer Documentation
 
 To build this buildpack, run the following command from the buildpack's directory:
