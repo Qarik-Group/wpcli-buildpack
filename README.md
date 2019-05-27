@@ -53,7 +53,7 @@ To build this buildpack, run the following command from the buildpack's director
     Upload the buildpack to your Cloud Foundry.
 
     ```bash
-    cf create-buildpack wpcli_buildpack wpcli_buildpack-*.zip 1
+    cf create-buildpack wpcli_buildpack wpcli_buildpack-*.zip 100
     ```
 
     Add `wpcli_buildpack` into your application's manifest.yml:
