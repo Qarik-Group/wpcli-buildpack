@@ -1,0 +1,18 @@
+---
+language: wpcli
+default_versions:
+- name: wp-cli
+  version: 2.2.0
+dependency_deprecation_dates: []
+dependencies:
+- name: wp-cli
+  version: 2.2.0
+  uri: https://github.com/wp-cli/wp-cli/releases/download/v2.2.0/wp-cli-2.2.0.phar
+  sha256: 71ee8a2449f17bf8a6fd385872cbdc3cc263107f7767a3b55f6c6e2ef5920368
+
+include_files:
+  - README.md
+  - VERSION
+  - bin/supply
+  - manifest.yml
+pre_package: scripts/build.sh
