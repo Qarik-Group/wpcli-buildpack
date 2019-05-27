@@ -19,7 +19,7 @@
 
 [[projects]]
   branch = "v2dev"
-  digest = "1:e46ecc7f18b4772d305d8183e4f7028245ff21ba2cf53ed282b71cd010b95aa0"
+  digest = "1:c71cc05b48e5266dcd5ca7070e0f164ce5481a7b423c508b9de31df10fb70359"
   name = "github.com/cloudfoundry/libbuildpack"
   packages = [
     ".",
@@ -27,7 +27,7 @@
     "packager",
   ]
   pruneopts = ""
-  revision = "4ec0ac20e16c09cb7419433b34c7e55b1a91d892"
+  revision = "1afd0c251b618c4f78f8e7057c241ca5192322cf"
   source = "github.com/drnic/libbuildpack"
 
 [[projects]]

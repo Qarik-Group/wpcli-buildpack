@@ -81,11 +81,7 @@ func (i *Installer) InstallDependency(dep Dependency, outputDir string) error {
 		return ExtractTarGz(tmpFile, outputDir)
 	}
 
-	fmt.Printf("entry    : %#v\n", entry)
-	fmt.Printf("tmpFile  : %#v\n", tmpFile)
-	fmt.Printf("outputDir: %#v\n", outputDir)
 	basename := filepath.Base(entry.URI)
-	fmt.Printf("basename: %#v\n", basename)
 	return CopyFile(tmpFile, filepath.Join(outputDir, basename))
 }
 

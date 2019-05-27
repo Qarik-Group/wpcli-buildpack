@@ -2,6 +2,8 @@ package supply
 
 import (
 	"io"
+	"os"
+	"path/filepath"
 
 	"github.com/cloudfoundry/libbuildpack"
 )
@@ -41,9 +43,30 @@ type Supplier struct {
 }
 
 func (s *Supplier) Run() error {
-	s.Log.BeginStep("Supplying wpcli")
+	s.Log.BeginStep("Supplying wp-cli")
 
-	// TODO: Install any dependencies here...
+	pancake, err := s.Manifest.DefaultVersion("wp-cli")
+	if err != nil {
+		return err
+	}
+	if err := s.Installer.InstallDependency(pancake, s.Stager.DepDir()); err != nil {
+		return err
+	}
+
+	wpcliBin, err := filepath.Glob(filepath.Join(s.Stager.DepDir(), "wp*"))
+	if err != nil {
+		return err
+	}
+
+	err = os.Rename(wpcliBin[0], filepath.Join(s.Stager.DepDir(), "bin", "wp"))
+	if err != nil {
+		return err
+	}
+
+	err = os.Chmod(filepath.Join(s.Stager.DepDir(), "bin", "wp"), 0755)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

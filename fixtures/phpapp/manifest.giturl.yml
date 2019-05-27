@@ -1,0 +1,9 @@
+applications:
+- name: phpapp
+  instances: 1
+  disk_quota: 512M
+  memory: 128M
+  stack: cflinuxfs3
+  buildpacks:
+  - https://github.com/starkandwayne/wpcli-buildpack
+  - php_buildpack
