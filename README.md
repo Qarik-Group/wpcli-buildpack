@@ -1,60 +1,94 @@
-### Buildpack User Documentation
+# Install Wordpress CLI with a Cloud Foundry buildpack
 
-### Building the Buildpack
+If you have deployed Wordpress to Cloud Foundry then it maybe desirable to have the [`wp` CLI](https://wp-cli.org/) available when you `cf ssh` into your application container.
+
+Learn more about the `wp` CLI in the [handbook](https://make.wordpress.org/cli/handbook/).
+
+Inside `cf ssh`, the `wp` helper is already configured with the `--path=$HOME/htdocs` where Wordpress will be installed by the [php-buildpack](https://github.com/cloudfoundry/php-buildpack).
+
+## Buildpack Developer Documentation
+
 To build this buildpack, run the following command from the buildpack's directory:
 
 1. Source the .envrc file in the buildpack directory.
-```bash
-source .envrc
-```
-To simplify the process in the future, install [direnv](https://direnv.net/) which will automatically source .envrc when you change directories.
+
+    ```bash
+    source .envrc
+    ```
+
+    To simplify the process in the future, install [direnv](https://direnv.net/) which will automatically source .envrc when you change directories.
 
 1. Install buildpack-packager
-```bash
-./scripts/install_tools.sh
-```
+
+    ```bash
+    ./scripts/install_tools.sh
+    ```
 
 1. Build the buildpack
-```bash
-buildpack-packager build
-```
+
+    ```bash
+    buildpack-packager build -stack cflinuxfs3 -cached
+    ```
 
 1. Use in Cloud Foundry
-Upload the buildpack to your Cloud Foundry and optionally specify it by name
 
-```bash
-cf create-buildpack [BUILDPACK_NAME] [BUILDPACK_ZIP_FILE_PATH] 1
-cf push my_app [-b BUILDPACK_NAME]
-```
+    Upload the buildpack to your Cloud Foundry.
+
+    ```bash
+    cf create-buildpack wpcli_buildpack wpcli_buildpack-*.zip 1
+    ```
+
+    Add `wpcli_buildpack` into your application's manifest.yml:
+
+    ```yaml
+    applications:
+    - name: wordpress
+      buildpacks:
+      - wpcli_buildpack
+      - php_buildpack
+    ```
+
+    If your Cloud Foundry platform operators have not yet added `wpcli_buildpack`, then you can use this buildpack via its Git URL:
+
+    ```yaml
+    applications:
+    - name: wordpress
+      buildpacks:
+      - https://github.com/starkandwayne/wpcli-buildpack
+      - php_buildpack
+    ```
 
 ### Testing
+
 Buildpacks use the [Cutlass](https://github.com/cloudfoundry/libbuildpack/cutlass) framework for running integration tests.
 
 To test this buildpack, run the following command from the buildpack's directory:
 
 1. Source the .envrc file in the buildpack directory.
 
-```bash
-source .envrc
-```
-To simplify the process in the future, install [direnv](https://direnv.net/) which will automatically source .envrc when you change directories.
+    ```bash
+    source .envrc
+    ```
 
-1. Run unit tests
-
-```bash
-./scripts/unit.sh
-```
+    To simplify the process in the future, install [direnv](https://direnv.net/) which will automatically source .envrc when you change directories.
 
 1. Run integration tests
 
-```bash
-./scripts/integration.sh
-```
+    ```bash
+    cf cs p-mysql 10mb db
+    ./scripts/integration.sh
+    ```
 
-More information can be found on Github [cutlass](https://github.com/cloudfoundry/libbuildpack/cutlass).
+    To run integration tests against CFDev:
+
+    ```bash
+    cf login -a https://api.dev.cfdev.sh --skip-ssl-validation -u admin -p admin
+    cf cs p-mysql 10mb db
+    CUTLASS_SCHEMA=https CUTLASS_SKIP_TLS_VERIFY=true ./scripts/integration.sh
+    ```
+
+    More information can be found on Github [cutlass](https://github.com/cloudfoundry/libbuildpack/cutlass).
 
 ### Reporting Issues
-Open an issue on this project
 
-## Disclaimer
-This buildpack is experimental and not yet intended for production use.
+Open an issue on this project.
