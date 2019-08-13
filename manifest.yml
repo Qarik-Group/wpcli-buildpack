@@ -2,7 +2,7 @@
 language: wp-cli
 default_versions:
 - name: wp-cli
-  version: 2.2.0
+  version: 2.3.0
 dependency_deprecation_dates: []
 
 include_files:
@@ -14,9 +14,9 @@ pre_package: scripts/build.sh
 
 dependencies:
 - name: wp-cli
-  version: 2.2.0
-  uri: https://github.com/wp-cli/wp-cli/releases/download/v2.2.0/wp-cli-2.2.0.phar
-  sha256: 71ee8a2449f17bf8a6fd385872cbdc3cc263107f7767a3b55f6c6e2ef5920368
+  version: 2.3.0
+  uri: https://github.com/wp-cli/wp-cli/releases/download/v2.3.0/wp-cli-2.3.0.phar
+  sha256: 
   cf_stacks:
   - cflinuxfs2
   - cflinuxfs3
