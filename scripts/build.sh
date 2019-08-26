@@ -4,5 +4,4 @@ set -exuo pipefail
 cd "$( dirname "${BASH_SOURCE[0]}" )/.."
 source .envrc
 
-GOOS=linux go build -ldflags="-s -w" -o bin/supply wpcli/supply/cli
-GOOS=linux go build -ldflags="-s -w" -o bin/finalize wpcli/finalize/cli
+GOOS=linux go build -mod=vendor -ldflags="-s -w" -o bin/supply ./src/wpcli/supply/cli

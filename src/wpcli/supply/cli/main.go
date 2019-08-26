@@ -1,8 +1,8 @@
 package main
 
 import (
-	_ "wpcli/hooks"
-	"wpcli/supply"
+	_ "github.com/starkandwayne/wpcli-buildpack/src/wpcli/hooks"
+	"github.com/starkandwayne/wpcli-buildpack/src/wpcli/supply"
 	"os"
 	"path/filepath"
 	"time"
